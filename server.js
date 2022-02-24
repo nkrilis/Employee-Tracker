@@ -112,6 +112,178 @@ const userSelections = () =>
 
         }
 
+        if (choices === 'Add a Department')
+        {
+
+            inquirer.prompt 
+            ([
+                {
+                    type: 'input',
+                    name: 'department',
+                    message: 'What is the name of the new department?',
+                    validate: department =>
+                    {
+                        if(department)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            console.log("Please enter a department name!");
+                            return false;
+                        }
+                    }
+                }
+            ])
+            .then ((data) =>
+            {
+                const sql = `INSERT INTO departments (name)
+                             VALUES  (?)`;
+
+                db.query(sql, data.department, function (err, results)
+                {
+                    console.log('\n');
+                    console.log(`The ${data.department} has been added to departments.`);
+                    
+                    userSelections();
+                });
+
+            });
+
+        }
+
+        if (choices === 'Add a Role')
+        {
+
+            inquirer.prompt ([
+                {
+                    type: 'input',
+                    name: 'title',
+                    message: 'What is the name of the role?',
+                    validate: title =>
+                    {
+                        if(title)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            console.log("Please enter a Role!");
+                            return false;
+                        }
+                    }
+                },
+
+                {
+                    type: 'input',
+                    name: 'salary',
+                    message: "What is this Role's salary?"
+                },
+
+            ])
+            .then((data) =>
+            {
+                const roles = `SELECT name, id FROM departments`;
+
+                db.query(roles, function (err, data)
+                {
+                    const deptList = data.map(({name, id}) => ({name: name, value: id}));
+
+                    inquirer.prompt([
+                        {
+                            type: 'list',
+                            name: 'department',
+                            message: 'Which department does this Role belong to?',
+                            choices: deptList
+                        }
+                    ])
+                    .then((deptSel) =>
+                    {
+                        const sql = `INSERT INTO roles (title, salary, department_id)
+                                     VALUES  (?, ?, ?)`;
+
+                        db.query(sql, data.title, data.salary, deptSel.department, function (err, values)
+                        {
+                            console.log(`The ${data.title} role has been added succesfully!`);
+
+                            userSelections();
+                        });
+                    });
+                });
+            });
+
+        }
+
+        if(choices === 'Add an Employee')
+        {
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: "What is the Employee's first name?"
+                },
+
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: "What is the Employee's last name?"
+                }
+            ])
+            .then((names) =>
+            {
+                const roles = `SELECT roles.id, roles.title FROM roles`;
+
+                db.query(roles, function (err, data)
+                {
+                    const roleList = data.map(({id, title}) => ({name: title, value: id}));
+
+                    inquirer.prompt([
+                        {
+                            type: 'list',
+                            name: 'role',
+                            message: 'Which Role does this employee have?',
+                            choices: roleList
+                        }
+                    ])
+                    .then((roleSel) =>
+                    {
+                        const emps = `SELECT employees.id, employees.first_name, employees.last_name FROM employees`;
+
+                        db.query(emps, function (err, data)
+                        {
+                            const empList = data.map(({id, first_name, last_name}) => ({name: first_name + " " + last_name, value: id}));
+
+                            inquirer.prompt([
+                                {
+                                    type: 'list',
+                                    name: 'manager',
+                                    message: "Who is this Employee's manager?",
+                                    choices: empList
+                                }
+                            ])
+                            .then((managerSel) =>
+                            {
+                                const sql = 'INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES  (?, ?, ?, ?)';
+
+                                // console.log(`${names.firstName} ${names.lastName} ${roleSel.role} ${managerSel.manager}`)
+                                
+                                db.query(sql, names.firstName, names.lastName, roleSel.role, managerSel.manager, function (err, data)
+                                {
+                                    console.log(`${names.firstName} ${names.lastName} ${roleSel.role} ${managerSel.manager}`);
+                                });
+                                // db.query(sql, names.firstName, names.lastName, roleSel.role, managerSel.manager, function (err, info)
+                                // {
+                                //     console.log(`${names.firstName} ${names.lastName} has been added as an employee`);
+
+                                //     userSelections();
+                                // });
+                            });
+                        });
+                    });
+                });
+            });
+        }
+
 
 
     });
