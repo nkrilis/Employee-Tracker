@@ -7,6 +7,9 @@
   
   Employee Tracker is a `CLI` application that lets a user keep track of their employees. Through the use of `MySQL` and `javascript` I have created three tables (Employees, Roles, and Departments). Each employee has an associated role which is refrenced in the `roles` table and each role has an associated department which is refrenced in the `departments` table. The application has the functionallity to view all tables, add new departments, add new roles, and add new employees. All functionallity is created with proper entity relationships.
   
+  ![ERD](https://user-images.githubusercontent.com/22037181/155480054-4a53e2bb-25be-4093-9121-1931e7074a0a.png)
+
+
   ## Table of Contents
   
   - [Installation](#installation)
@@ -22,6 +25,10 @@
   After the installation process you can now run `npm start` this will start the application. Choose a selection and enter what you are prompted for.
   ## How to Contribute
   This application is solely created by Nicholas Krilis. If you would like to make changes to this project please fork the repo and submit your changes via a pull request. I will take a look and if all looks good I will merge, Thank you!
+  
+   ## Click for video tutorial
+  [![employee-tracker](https://user-images.githubusercontent.com/22037181/155479560-969b0d87-a2ea-46f7-bf6e-3832a4abf44b.png)](https://drive.google.com/file/d/1pt24Fu1kIteGRmf_DOsxtJxlq5PD7hWY/view?usp=sharing)
+  
   ## Tests
   For this application there are no testing suites available.
   ## Questions
