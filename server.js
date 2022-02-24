@@ -30,6 +30,7 @@ const db = mysql.createConnection(
   
 const userSelections = () =>
 {
+    // Ask user for what they want to do
     inquirer.prompt ([
         {
             type: 'list',
@@ -49,6 +50,7 @@ const userSelections = () =>
     {
         const {choices} = selection;
 
+        // View all departments
         if (choices === 'View all Departments')
         {
             const sql = `SELECT * FROM departments`;
@@ -62,7 +64,7 @@ const userSelections = () =>
             });
 
         }
-
+        // View all Roles
         if (choices === 'View all Roles')
         {
           const sql = `SELECT 
@@ -83,7 +85,7 @@ const userSelections = () =>
             });
 
         }
-
+        // View all employees with information from all three tables
         if (choices === 'View all Employees')
         {
           const sql = `SELECT 
@@ -110,7 +112,7 @@ const userSelections = () =>
             });
 
         }
-
+        // Add a new department to the departments table
         if (choices === 'Add a Department')
         {
 
@@ -150,7 +152,7 @@ const userSelections = () =>
             });
 
         }
-
+        // Add a new role to the roles table
         if (choices === 'Add a Role')
         {
 
@@ -213,7 +215,7 @@ const userSelections = () =>
             });
 
         }
-
+        // Add a new Employee to the employees table
         if(choices === 'Add an Employee')
         {
             inquirer.prompt([
@@ -287,7 +289,7 @@ const userSelections = () =>
                 });
             });
         }
-
+        // Update an existing employee's role 
         if(choices === 'Update an Employee Role')
         {
             const emps = `SELECT employees.id, employees.first_name, employees.last_name FROM employees`;
@@ -343,5 +345,6 @@ const userSelections = () =>
 
     });
 };
-
+// Call main function
 userSelections();
+
