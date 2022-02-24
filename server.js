@@ -42,13 +42,20 @@ const userSelections = () =>
                       'Add a Department',
                       'Add a Role',
                       'Add an Employee',
-                      'Update an Employee Role']
+                      'Update an Employee Role',
+                      'EXIT']
 
         }
     ])
     .then((selection) => 
     {
         const {choices} = selection;
+
+        if (choices === 'EXIT')
+        {
+            console.log("\nThank you for using Employee Tracker \n--Nicholas Krilis--\n")
+            process.exit();
+        }
 
         // View all departments
         if (choices === 'View all Departments')
